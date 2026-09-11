@@ -3,7 +3,7 @@
 Final inventory liquidation website for a closed automobile parts shop.
 
 ## Live Demo
-https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/
+https://abhinavsoni2011.github.io/auto-parts-clearance-site/
 
 ## How to use
 - Just open `index.html` in any browser, or visit the live link above.
