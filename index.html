@@ -1,554 +1,358 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AutoParts Clearance | Inventory Liquidation</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            neon: {
-              400: '#39FF14',
-              500: '#00E676',
-              600: '#00C853'
-            },
-            dark: {
-              800: '#0f172a',
-              900: '#020617',
-              950: '#01040a'
-            }
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif']
-          }
-        }
-      }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ApexParts | Auto Parts Clearance</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: "#0a0c0e",
+        surface: "#13171c",
+        elevated: "#1b2129",
+        fg: "#f2f4f6",
+        muted: "#8b95a1",
+        subtle: "#5c6670",
+        line: "#2a323c",
+        accent: "#3ee07f",
+        "accent-fg": "#052010",
+        buy: "#ff8a1f",
+        "buy-fg": "#1a0d00",
+        used: "#d6c28a",
+        "used-fg": "#1c1608",
+        repair: "#e07a4c",
+        "repair-fg": "#1a0b05",
+      },
+      fontFamily: { sans: ["DM Sans","system-ui","sans-serif"] }
     }
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', system-ui, sans-serif; }
-    .badge-new { background: #00C853; color: #000; }
-    .badge-used { background: #FBBF24; color: #000; }
-    .badge-repair { background: #F97316; color: #000; }
-    .card-hover { transition: all 0.25s ease; }
-    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 30px -8px rgba(57,255,20,0.25); }
-    .neon-glow { box-shadow: 0 0 12px rgba(57,255,20,0.35); }
-    
-    /* Modal animation */
-    #detail-modal {
-      transition: opacity 0.25s ease, visibility 0.25s ease;
-    }
-    #detail-modal.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    #detail-modal:not(.hidden) {
-      opacity: 1;
-      visibility: visible;
-    }
-    #modal-content {
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    #detail-modal.hidden #modal-content {
-      transform: translateY(30px) scale(0.97);
-    }
-  </style>
+  }
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: "DM Sans", system-ui, sans-serif; }
+  button:not(:disabled), [role="button"] { cursor: pointer; }
+</style>
 </head>
-<body class="bg-dark-950 text-slate-200 antialiased">
-
-  <!-- HEADER -->
-  <header class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur border-b border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded bg-neon-500 flex items-center justify-center font-bold text-black text-lg">A</div>
-          <div>
-            <h1 class="text-lg font-bold tracking-tight text-white">AutoParts <span class="text-neon-400">Clearance</span></h1>
-            <p class="text-xs text-slate-400 -mt-0.5">Final Inventory Liquidation</p>
-          </div>
-        </div>
-        <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-          <a href="#inventory" class="hover:text-neon-400 transition">Inventory</a>
-          <a href="#about" class="hover:text-neon-400 transition">About</a>
-          <a href="#contact" class="hover:text-neon-400 transition">Contact</a>
-        </nav>
-        <a href="https://wa.me/7878863821?text=Hi%2C%20I%20want%20to%20inquire%20about%20parts" 
-           target="_blank"
-           class="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-neon-500 hover:bg-neon-400 text-black font-semibold rounded-lg transition neon-glow text-sm">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          WhatsApp
-        </a>
-        <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-300 hover:text-white">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-      </div>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800 bg-dark-900">
-      <div class="px-4 py-3 space-y-2">
-        <a href="#inventory" class="block py-2 text-sm hover:text-neon-400">Inventory</a>
-        <a href="#about" class="block py-2 text-sm hover:text-neon-400">About</a>
-        <a href="#contact" class="block py-2 text-sm hover:text-neon-400">Contact</a>
-        <a href="https://wa.me/7878863821" target="_blank" class="block py-2 text-sm text-neon-400 font-medium">WhatsApp Us</a>
-      </div>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-dark-900 via-dark-950 to-black"></div>
-    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 20% 50%, #39FF14 0%, transparent 40%), radial-gradient(circle at 80% 20%, #00C853 0%, transparent 30%);"></div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      <div class="max-w-3xl">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neon-500/10 border border-neon-500/30 text-neon-400 text-xs font-semibold mb-6">
-          <span class="w-2 h-2 rounded-full bg-neon-400 animate-pulse"></span>
-          FINAL CLEARANCE — LIMITED STOCK
-        </div>
-        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
-          Quality Auto Parts<br>
-          <span class="text-neon-400">at Liquidation Prices</span>
-        </h2>
-        <p class="mt-6 text-lg text-slate-300 max-w-xl">
-          Brand-new old stock, tested used parts, and project-condition pieces from a trusted local shop. 
-          Everything must go. Serious buyers only.
-        </p>
-        <div class="mt-8 flex flex-wrap gap-4">
-          <a href="#inventory" class="inline-flex items-center gap-2 px-6 py-3.5 bg-neon-500 hover:bg-neon-400 text-black font-bold rounded-lg transition neon-glow">
-            Browse Inventory
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </a>
-          <a href="https://wa.me/7878863821?text=Hi%2C%20I%20saw%20the%20clearance%20site" target="_blank"
-             class="inline-flex items-center gap-2 px-6 py-3.5 border border-slate-600 hover:border-neon-400 text-white font-medium rounded-lg transition">
-            Message on WhatsApp
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FILTERS + INVENTORY -->
-  <section id="inventory" class="py-12 sm:py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-        <div>
-          <h3 class="text-2xl sm:text-3xl font-bold text-white">Current Stock</h3>
-          <p class="text-slate-400 mt-1 text-sm">Click any part to see full details</p>
-        </div>
-        <p class="text-sm text-slate-400"><span id="result-count">0</span> parts found</p>
-      </div>
-
-      <!-- Filter Bar -->
-      <div class="bg-dark-900 border border-slate-800 rounded-xl p-4 sm:p-5 mb-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-          <div class="lg:col-span-2">
-            <label class="block text-xs font-medium text-slate-400 mb-1.5">Search</label>
-            <div class="relative">
-              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-              <input id="search-input" type="text" placeholder="Part name, OEM, vehicle..."
-                     class="w-full pl-10 pr-4 py-2.5 bg-dark-950 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-neon-400 focus:ring-1 focus:ring-neon-400 transition">
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1.5">Category</label>
-            <select id="filter-category" class="w-full py-2.5 px-3 bg-dark-950 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:border-neon-400">
-              <option value="">All Categories</option>
-              <option value="Engine">Engine</option>
-              <option value="Brakes">Brakes</option>
-              <option value="Suspension">Suspension</option>
-              <option value="Electrical">Electrical</option>
-              <option value="Body">Body</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1.5">Vehicle Make</label>
-            <select id="filter-make" class="w-full py-2.5 px-3 bg-dark-950 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:border-neon-400">
-              <option value="">All Makes</option>
-              <option value="Maruti">Maruti</option>
-              <option value="Hyundai">Hyundai</option>
-              <option value="Honda">Honda</option>
-              <option value="Toyota">Toyota</option>
-              <option value="Mahindra">Mahindra</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1.5">Condition</label>
-            <select id="filter-condition" class="w-full py-2.5 px-3 bg-dark-950 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:border-neon-400">
-              <option value="">All Conditions</option>
-              <option value="NEW">New (NOS)</option>
-              <option value="USED">Used</option>
-              <option value="REPAIR">Needs Minor Repair</option>
-            </select>
-          </div>
-        </div>
-        <div class="mt-3 flex justify-end">
-          <button id="reset-filters" class="text-xs text-slate-400 hover:text-neon-400 transition">Reset filters</button>
-        </div>
-      </div>
-
-      <!-- Inventory Grid -->
-      <div id="inventory-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        <!-- Cards injected by JS -->
-      </div>
-
-      <div id="empty-state" class="hidden text-center py-20">
-        <p class="text-slate-400 text-lg">No parts match your filters.</p>
-        <button id="clear-filters-btn" class="mt-4 text-neon-400 hover:underline text-sm">Clear all filters</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="py-16 border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <h3 class="text-2xl sm:text-3xl font-bold text-white mb-4">Honest Liquidation from a Local Shop</h3>
-          <p class="text-slate-300 leading-relaxed mb-4">
-            After decades of serving the community, the shop has closed. All remaining inventory is being sold directly — no middlemen, no inflated prices. 
-            Every part is accurately graded so you know exactly what you’re getting.
-          </p>
-          <ul class="space-y-2 text-sm text-slate-300">
-            <li class="flex items-start gap-2"><span class="text-neon-400 mt-0.5">✓</span> Brand-new old stock still in original packaging</li>
-            <li class="flex items-start gap-2"><span class="text-neon-400 mt-0.5">✓</span> Used parts tested where possible</li>
-            <li class="flex items-start gap-2"><span class="text-neon-400 mt-0.5">✓</span> Project / needs-repair items clearly marked</li>
-            <li class="flex items-start gap-2"><span class="text-neon-400 mt-0.5">✓</span> Local pickup preferred • limited delivery available</li>
-          </ul>
-        </div>
-        <div class="bg-dark-900 border border-slate-800 rounded-2xl p-6 sm:p-8">
-          <h4 class="font-semibold text-white mb-3">Condition Legend</h4>
-          <div class="space-y-3 text-sm">
-            <div class="flex items-center gap-3">
-              <span class="badge-new px-2.5 py-1 rounded text-xs font-bold">NEW</span>
-              <span class="text-slate-300">Brand new / New Old Stock — never installed</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="badge-used px-2.5 py-1 rounded text-xs font-bold">USED</span>
-              <span class="text-slate-300">Previously used, tested, good working condition</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="badge-repair px-2.5 py-1 rounded text-xs font-bold">NEEDS MINOR REPAIR</span>
-              <span class="text-slate-300">Requires small fix or is sold as-is for projects</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="py-16 border-t border-slate-800 bg-dark-900/50">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h3 class="text-2xl sm:text-3xl font-bold text-white mb-3">Ready to Buy?</h3>
-      <p class="text-slate-300 mb-8">Message us on WhatsApp with the part name or ID. We’ll confirm availability and price quickly.</p>
-      <a href="https://wa.me/7878863821?text=Hi%2C%20I%20want%20to%20buy%20parts%20from%20the%20clearance" 
-         target="_blank"
-         class="inline-flex items-center gap-3 px-8 py-4 bg-neon-500 hover:bg-neon-400 text-black font-bold rounded-xl transition neon-glow text-lg">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Chat on WhatsApp
+<body class="bg-bg text-fg antialiased min-h-screen">
+<header class="sticky top-0 z-40 border-b border-line bg-bg/95 backdrop-blur">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
+    <a href="#/" class="flex items-center gap-2 shrink-0" onclick="go('/')">
+      <span class="w-9 h-9 rounded-md bg-accent text-accent-fg font-bold grid place-items-center">A</span>
+      <span>
+        <span class="block font-bold">ApexParts</span>
+        <span class="hidden sm:block text-[10px] uppercase tracking-widest text-muted">Clearance store</span>
+      </span>
+    </a>
+    <form class="hidden md:block flex-1" onsubmit="event.preventDefault(); go('/?q='+encodeURIComponent(document.getElementById('q').value))">
+      <input id="q" class="w-full h-11 rounded-md bg-elevated border border-line px-3 text-sm outline-none focus:border-accent" placeholder="Search parts, OEM, make, model…"/>
+    </form>
+    <nav class="ml-auto flex items-center gap-1">
+      <a href="#/orders" class="hidden sm:inline-flex h-11 px-3 items-center text-sm" onclick="go('/orders')">Orders</a>
+      <a href="#/cart" class="relative inline-flex h-11 px-3 items-center text-sm font-semibold" onclick="go('/cart')">
+        Cart <span id="cart-count" class="ml-1 hidden min-w-5 h-5 px-1 rounded-full bg-buy text-buy-fg text-[10px] grid place-items-center"></span>
       </a>
+    </nav>
+  </div>
+  <form class="md:hidden px-4 pb-3" onsubmit="event.preventDefault(); go('/?q='+encodeURIComponent(document.getElementById('qm').value))">
+    <input id="qm" class="w-full h-11 rounded-md bg-elevated border border-line px-3 text-sm" placeholder="Search parts…"/>
+  </form>
+  <div class="border-t border-line overflow-x-auto">
+    <div class="max-w-7xl mx-auto px-4 py-2 flex gap-1" id="cats"></div>
+  </div>
+</header>
+<main id="app" class="max-w-7xl mx-auto px-4 py-8"></main>
+<footer class="border-t border-line mt-8">
+  <div class="max-w-7xl mx-auto px-4 py-8 text-sm text-muted">
+    ApexParts — final garage clearance. Coupons: CLEARANCE10, BOLT500, NOS15. Local pickup · Cash / UPI.
+  </div>
+</footer>
+<script>
+const img = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=900&h=700&q=80`;
+const PRODUCTS = [
+  {id:"P001",name:"OEM Alternator 12V 90A",brand:"Bosch",category:"Electrical",make:"Maruti",model:"Swift / Dzire",year:"2012-2017",condition:"NEW",mrp:7200,price:4800,stock:6,rating:4.7,reviews:128,sold:340,oem:"31400-M68K00",desc:"Brand-new old stock. Original packaging, never installed.",specs:{Voltage:"12V",Output:"90A"},image:img("photo-1486262715619-67b85e0b08d3"),deliveryDays:2},
+  {id:"P002",name:"Front Brake Disc Pair — Ventilated",brand:"Brembo",category:"Brakes",make:"Hyundai",model:"i20 / Elite i20",year:"2014-2020",condition:"USED",mrp:4100,price:2200,stock:4,rating:4.4,reviews:86,sold:210,oem:"51712-1R000",desc:"Measured within factory tolerance. Minimal lip wear.",specs:{Type:"Ventilated",Diameter:"256 mm"},image:img("photo-1558618666-fcd25c85cd64"),deliveryDays:3},
+  {id:"P003",name:"Rear Shock Absorber (Left)",brand:"KYB",category:"Suspension",make:"Honda",model:"City",year:"2008-2013",condition:"REPAIR",mrp:2800,price:900,stock:3,rating:3.9,reviews:22,sold:41,oem:"52611-SNA-A02",desc:"Bushing worn. Shaft and body sound. Ideal rebuild.",specs:{Side:"Rear left"},image:img("photo-1492144534655-ae79c964c9d7"),deliveryDays:4},
+  {id:"P004",name:"Timing Belt Kit + Water Pump",brand:"Gates",category:"Engine",make:"Toyota",model:"Innova / Fortuner",year:"2005-2015",condition:"NEW",mrp:9800,price:6500,stock:5,rating:4.8,reviews:201,sold:512,oem:"13568-YZZ03",desc:"Complete kit: belt, pump, tensioner, idlers.",specs:{Engine:"2KD / 1KD"},image:img("photo-1619642751034-765dfdf7c58e"),deliveryDays:2},
+  {id:"P005",name:"Headlight Assembly RH",brand:"Magneti Marelli",category:"Body",make:"Mahindra",model:"Scorpio",year:"2014-2017",condition:"USED",mrp:5400,price:3100,stock:2,rating:4.2,reviews:54,sold:77,oem:"D206-13-090",desc:"Clear lens, minor scratches. All bulbs tested.",specs:{Side:"Right hand"},image:img("photo-1503376780353-7e6692767b70"),deliveryDays:3},
+  {id:"P006",name:"Plastic-Tank Radiator",brand:"Denso",category:"Cooling",make:"Maruti",model:"WagonR / Swift",year:"2010-2018",condition:"USED",mrp:3200,price:1850,stock:7,rating:4.3,reviews:63,sold:190,oem:"17700-M79J00",desc:"Pressure tested. No major leaks.",specs:{Core:"Aluminium"},image:img("photo-1494976388531-d1058494cdd8"),deliveryDays:3},
+  {id:"P007",name:"Starter Motor 12V",brand:"Valeo",category:"Electrical",make:"Hyundai",model:"i10 / Grand i10",year:"2010-2017",condition:"NEW",mrp:5600,price:3900,stock:8,rating:4.6,reviews:94,sold:260,oem:"36100-03000",desc:"New in box. Direct replacement.",specs:{Voltage:"12V"},image:img("photo-1542362567-b07e54358753"),deliveryDays:2},
+  {id:"P008",name:"Front Lower Control Arm RH",brand:"Moog",category:"Suspension",make:"Honda",model:"Jazz / City",year:"2009-2014",condition:"REPAIR",mrp:3400,price:1200,stock:4,rating:3.8,reviews:18,sold:33,oem:"51350-TF0-000",desc:"Ball joint needs replacement. Arm is straight.",specs:{Side:"Front right"},image:img("photo-1511919884226-fd3cad34687c"),deliveryDays:4},
+  {id:"P009",name:"Air Filter Element — High Flow",brand:"Mann",category:"Filters",make:"Kia",model:"Seltos",year:"2019-2023",condition:"NEW",mrp:980,price:620,stock:22,rating:4.5,reviews:310,sold:890,oem:"28113-2F000",desc:"Sealed OEM-spec element. Drop-in fit.",specs:{Type:"Panel"},image:img("photo-1552519507-da3b142c6e3d"),deliveryDays:1},
+  {id:"P010",name:"Clutch Kit 3-Piece",brand:"LuK",category:"Engine",make:"Tata",model:"Nexon",year:"2017-2022",condition:"NEW",mrp:8900,price:6400,stock:3,rating:4.7,reviews:71,sold:140,oem:"25200-XXXX",desc:"Cover, disc, and release bearing.",specs:{Pieces:"3"},image:img("photo-1605559424843-9e4c228bf1c2"),deliveryDays:3},
+  {id:"P011",name:"Cabin AC Filter Pair",brand:"Bosch",category:"Filters",make:"Maruti",model:"Baleno / Swift",year:"2015-2022",condition:"NEW",mrp:780,price:420,stock:30,rating:4.4,reviews:412,sold:1204,oem:"95861-M68K00",desc:"Activated-carbon pair. DIY fit.",specs:{Pack:"Pair"},image:img("photo-1549317661-bd32c8ce0db2"),deliveryDays:1},
+  {id:"P012",name:"Front Strut Assembly LH",brand:"Monroe",category:"Suspension",make:"Hyundai",model:"Creta",year:"2015-2020",condition:"USED",mrp:7200,price:3900,stock:2,rating:4.1,reviews:39,sold:58,oem:"54650-XXXX",desc:"Complete strut, spring, and mount. No leaks.",specs:{Side:"Front left"},image:img("photo-1580274455191-1b52c449c482"),deliveryDays:4},
+  {id:"P013",name:"Fuel Pump Module",brand:"Denso",category:"Engine",make:"Honda",model:"Civic / City",year:"2014-2019",condition:"NEW",mrp:11200,price:7900,stock:3,rating:4.8,reviews:66,sold:98,oem:"17045-T2A-A00",desc:"In-tank module, new. Includes strainer and sender.",specs:{Type:"In-tank"},image:img("photo-1617531653332-bd46c24f2068"),deliveryDays:2},
+  {id:"P014",name:"Rear Bumper Cover",brand:"OEM",category:"Body",make:"Kia",model:"Sonet",year:"2020-2023",condition:"USED",mrp:9800,price:4500,stock:1,rating:4.0,reviews:12,sold:9,oem:"86611-XXXX",desc:"Unpainted factory cover. Two small scuffs.",specs:{Colour:"Unpainted"},image:img("photo-1618843479313-40f8afb4b4d8"),deliveryDays:5},
+  {id:"P015",name:"Brake Pad Set — Front Ceramic",brand:"Akebono",category:"Brakes",make:"Toyota",model:"Innova Crysta",year:"2016-2022",condition:"NEW",mrp:3400,price:2100,stock:11,rating:4.6,reviews:188,sold:430,oem:"04465-0K290",desc:"Low-dust ceramic. Hardware included.",specs:{Axle:"Front"},image:img("photo-1563720223185-11003d516935"),deliveryDays:2},
+  {id:"P016",name:"Thermostat Housing Assembly",brand:"Mahle",category:"Cooling",make:"Mahindra",model:"XUV500",year:"2011-2018",condition:"USED",mrp:2600,price:1450,stock:5,rating:4.2,reviews:27,sold:61,oem:"0606CAL00",desc:"Housing and thermostat as a unit.",specs:{Opens:"82C"},image:img("photo-1583121274602-3e2820c69888"),deliveryDays:3},
+  {id:"P017",name:"Wiper Motor Assembly",brand:"Bosch",category:"Electrical",make:"Tata",model:"Tiago / Tigor",year:"2016-2022",condition:"NEW",mrp:2900,price:1750,stock:9,rating:4.5,reviews:81,sold:154,oem:"28500-XXXX",desc:"New motor with linkage arm.",specs:{Voltage:"12V"},image:img("photo-1541899481282-d53bff3f048b"),deliveryDays:2},
+  {id:"P018",name:"Oil Filter — Spin On",brand:"Mann",category:"Filters",make:"Mahindra",model:"Bolero / Scorpio",year:"2010-2020",condition:"NEW",mrp:420,price:240,stock:40,rating:4.7,reviews:620,sold:2100,oem:"RL01020011",desc:"High-capacity spin-on filter.",specs:{Type:"Spin-on"},image:img("photo-1517524008697-84bbe3c3fd98"),deliveryDays:1},
+  {id:"P019",name:"Power Window Motor RH Front",brand:"Denso",category:"Electrical",make:"Maruti",model:"Ertiga",year:"2012-2018",condition:"USED",mrp:3100,price:1650,stock:3,rating:4.0,reviews:19,sold:28,oem:"82750-XXXX",desc:"Bench tested. Full travel both ways.",specs:{Side:"Front right"},image:img("photo-1489824904134-891ab64532e0"),deliveryDays:3},
+  {id:"P020",name:"Caliper Rebuild Kit — Front",brand:"Carlson",category:"Brakes",make:"Honda",model:"Amaze / Jazz",year:"2013-2019",condition:"NEW",mrp:1600,price:890,stock:14,rating:4.3,reviews:47,sold:112,oem:"43018-XXXX",desc:"Seals, boots, and slide pins.",specs:{Axle:"Front"},image:img("photo-1449965404019-e9fe08f8c51e"),deliveryDays:2},
+  {id:"P021",name:"Condenser — AC",brand:"Denso",category:"Cooling",make:"Hyundai",model:"Verna",year:"2017-2022",condition:"USED",mrp:6800,price:3200,stock:2,rating:4.1,reviews:15,sold:21,oem:"97606-XXXX",desc:"Nitrogen-tested. No visible leaks.",specs:{Test:"Nitrogen hold"},image:img("photo-1550355291-bbee04a93665"),deliveryDays:4},
+  {id:"P022",name:"Flywheel — Dual Mass (core)",brand:"Sachs",category:"Engine",make:"Toyota",model:"Fortuner",year:"2012-2016",condition:"REPAIR",mrp:18500,price:4200,stock:1,rating:3.6,reviews:8,sold:6,oem:"13405-0L040",desc:"Core unit. Springs tired. For rebuild.",specs:{Type:"Dual mass"},image:img("photo-1544636331-e26879cd4d9b"),deliveryDays:5},
+  {id:"P023",name:"Fog Lamp Pair — LED",brand:"Osram",category:"Body",make:"Tata",model:"Harrier",year:"2019-2023",condition:"NEW",mrp:4200,price:2680,stock:6,rating:4.5,reviews:73,sold:160,oem:"81210-XXXX",desc:"Plug-and-play LED fogs.",specs:{Temp:"5700K"},image:img("photo-1502877338535-766e1452684a"),deliveryDays:2},
+  {id:"P024",name:"Stabilizer Link Pair",brand:"TRW",category:"Suspension",make:"Kia",model:"Carens",year:"2022-2024",condition:"NEW",mrp:2100,price:1280,stock:10,rating:4.4,reviews:44,sold:97,oem:"54830-XXXX",desc:"Both sides. Greaseable joints.",specs:{Pack:"Pair"},image:img("photo-1542362567-b07e54358753"),deliveryDays:2}
+];
+const CATS = ["Engine","Brakes","Suspension","Electrical","Body","Cooling","Filters"];
+const MAKES = ["Maruti","Hyundai","Honda","Toyota","Mahindra","Tata","Kia"];
+const inr = n => "₹" + Number(n).toLocaleString("en-IN");
+const off = p => p.mrp>p.price ? Math.round((p.mrp-p.price)/p.mrp*100) : 0;
+const badge = c => c==="NEW" ? '<span class="bg-accent text-accent-fg text-[11px] font-bold px-2 py-0.5 rounded-sm">NEW</span>'
+  : c==="USED" ? '<span class="bg-used text-used-fg text-[11px] font-bold px-2 py-0.5 rounded-sm">USED</span>'
+  : '<span class="bg-repair text-repair-fg text-[11px] font-bold px-2 py-0.5 rounded-sm">NEEDS REPAIR</span>';
+
+function load(k, d){ try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } }
+function save(k,v){ localStorage.setItem(k, JSON.stringify(v)); }
+let cart = load("apex-cart", {items:[], coupon:""});
+let orders = load("apex-orders", []);
+
+function cartCount(){ return cart.items.reduce((n,i)=>n+i.qty,0); }
+function product(id){ return PRODUCTS.find(p=>p.id===id); }
+function totals(){
+  const lines = cart.items.map(i=>{ const p=product(i.productId); return p?{p,qty:i.qty,line:p.price*i.qty}:null; }).filter(Boolean);
+  const sub = lines.reduce((n,l)=>n+l.line,0);
+  const code = (cart.coupon||"").toUpperCase();
+  let disc = 0;
+  if(code==="CLEARANCE10") disc=Math.round(sub*0.1);
+  if(code==="BOLT500" && sub>=3000) disc=500;
+  if(code==="NOS15") disc=Math.round(sub*0.15);
+  const ship = sub>=1999 || sub===0 ? 0 : 99;
+  return {lines, sub, disc, ship, total: Math.max(0, sub-disc+ship)};
+}
+function addCart(id, qty=1){
+  const p=product(id); if(!p) return;
+  const e=cart.items.find(i=>i.productId===id);
+  if(e) e.qty=Math.min(p.stock,e.qty+qty); else cart.items.push({productId:id, qty:Math.min(p.stock,qty)});
+  save("apex-cart", cart); paintCount();
+}
+function setQty(id,q){
+  if(q<=0) cart.items=cart.items.filter(i=>i.productId!==id);
+  else cart.items=cart.items.map(i=>i.productId===id?{...i,qty:q}:i);
+  save("apex-cart", cart); route();
+}
+function paintCount(){
+  const el=document.getElementById("cart-count");
+  const n=cartCount();
+  if(n){ el.textContent=n; el.classList.remove("hidden"); el.classList.add("inline-grid"); }
+  else { el.classList.add("hidden"); }
+}
+
+function parse(){
+  const h=(location.hash||"#/").slice(1);
+  const [path, qs] = h.split("?");
+  const params = Object.fromEntries(new URLSearchParams(qs||""));
+  return { path: path || "/", params };
+}
+function go(path){
+  location.hash = path.startsWith("#")?path:"#"+path;
+}
+
+document.getElementById("cats").innerHTML =
+  `<a href="#/" class="shrink-0 px-3 py-2 text-xs font-semibold uppercase text-muted hover:text-fg">All stock</a>` +
+  CATS.map(c=>`<a href="#/?category=${encodeURIComponent(c)}" class="shrink-0 px-3 py-2 text-xs font-semibold uppercase text-muted hover:text-fg">${c}</a>`).join("");
+
+function card(p){
+  const o=off(p);
+  return `<a href="#/product/${p.id}" class="block rounded-xl border border-line bg-surface overflow-hidden hover:-translate-y-0.5 transition">
+    <div class="relative aspect-[4/3] bg-elevated">
+      <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover"/>
+      <div class="absolute top-2.5 left-2.5">${badge(p.condition)}</div>
+      ${o?`<div class="absolute top-2.5 right-2.5 bg-buy text-buy-fg text-[11px] font-bold px-1.5 py-0.5 rounded-sm">${o}% off</div>`:""}
     </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="border-t border-slate-800 py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-500">
-      <p>© 2026 AutoParts Clearance — Final Inventory Liquidation</p>
-      <p>Local pickup preferred • Cash / UPI accepted</p>
+    <div class="p-3.5">
+      <p class="text-[11px] uppercase text-muted">${p.brand} · ${p.category}</p>
+      <h3 class="font-semibold text-sm mt-1">${p.name}</h3>
+      <p class="text-xs text-muted">${p.make} ${p.model}</p>
+      <p class="mt-2 font-bold">${inr(p.price)} ${o?`<span class="text-xs text-subtle line-through font-normal">${inr(p.mrp)}</span>`:""}</p>
     </div>
-  </footer>
+  </a>`;
+}
 
-  <!-- ===================== PRODUCT DETAIL MODAL ===================== -->
-  <div id="detail-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-    <div id="modal-content" class="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-dark-900 border border-slate-700 rounded-2xl shadow-2xl">
-      
-      <!-- Close button -->
-      <button id="close-modal" class="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-dark-950/80 hover:bg-slate-800 text-slate-300 hover:text-white transition">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
+function home(params){
+  let list = PRODUCTS.filter(p=>{
+    const q=(params.q||"").toLowerCase();
+    const t=`${p.name} ${p.brand} ${p.make} ${p.model} ${p.oem} ${p.category}`.toLowerCase();
+    return (!q||t.includes(q)) && (!params.category||p.category===params.category) && (!params.make||p.make===params.make) && (!params.condition||p.condition===params.condition);
+  });
+  if(params.sort==="price-asc") list=[...list].sort((a,b)=>a.price-b.price);
+  else if(params.sort==="price-desc") list=[...list].sort((a,b)=>b.price-a.price);
+  else list=[...list].sort((a,b)=>b.sold-a.sold);
+  const browsing = !params.q && !params.category && !params.make && !params.condition;
+  return `
+    ${browsing?`<section class="mb-10 grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-accent">Final garage clearance</p>
+        <h1 class="text-4xl sm:text-5xl font-bold mt-2 leading-tight">Auto parts at liquidation prices</h1>
+        <p class="mt-4 text-muted max-w-md">New old stock, tested used, and project pieces. Search, cart, and checkout — no account needed.</p>
+      </div>
+    </section>`:""}
+    <div class="flex items-end justify-between mb-4">
+      <div>
+        <h2 class="text-2xl font-bold">${params.q?`Results for “${params.q}”`:params.category||"Current stock"}</h2>
+        <p class="text-sm text-muted">${list.length} parts</p>
+      </div>
+    </div>
+    <div class="grid lg:grid-cols-[220px_1fr] gap-6">
+      <aside class="rounded-xl border border-line bg-surface p-4 h-fit grid gap-3 text-sm">
+        <label class="text-xs text-muted">Category
+          <select class="mt-1 w-full h-11 bg-elevated border border-line rounded-md px-2" onchange="go('/?category='+this.value)">
+            <option value="">All</option>${CATS.map(c=>`<option ${params.category===c?"selected":""}>${c}</option>`).join("")}
+          </select>
+        </label>
+        <label class="text-xs text-muted">Make
+          <select class="mt-1 w-full h-11 bg-elevated border border-line rounded-md px-2" onchange="go('/?make='+this.value)">
+            <option value="">All</option>${MAKES.map(c=>`<option ${params.make===c?"selected":""}>${c}</option>`).join("")}
+          </select>
+        </label>
+        <label class="text-xs text-muted">Condition
+          <select class="mt-1 w-full h-11 bg-elevated border border-line rounded-md px-2" onchange="go('/?condition='+this.value)">
+            <option value="">All</option>
+            <option value="NEW" ${params.condition==="NEW"?"selected":""}>New</option>
+            <option value="USED" ${params.condition==="USED"?"selected":""}>Used</option>
+            <option value="REPAIR" ${params.condition==="REPAIR"?"selected":""}>Needs repair</option>
+          </select>
+        </label>
+        <button class="h-11 border border-line rounded-md" onclick="go('/')">Reset</button>
+      </aside>
+      <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">${list.map(card).join("")||'<p class="text-muted">No parts match.</p>'}</div>
+    </div>`;
+}
 
-      <div class="grid md:grid-cols-2 gap-0">
-        <!-- Image -->
-        <div class="relative bg-slate-800 aspect-square md:aspect-auto md:min-h-[420px]">
-          <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
-          <div id="modal-badge" class="absolute top-4 left-4"></div>
-        </div>
-
-        <!-- Details -->
-        <div class="p-6 sm:p-8 flex flex-col">
-          <div class="mb-4">
-            <p id="modal-id" class="text-xs font-mono text-slate-500 mb-1"></p>
-            <h2 id="modal-name" class="text-2xl sm:text-3xl font-bold text-white leading-tight"></h2>
-            <p id="modal-price" class="text-2xl font-bold text-neon-400 mt-2"></p>
-          </div>
-
-          <div class="space-y-4 text-sm text-slate-300 flex-1">
-            <div>
-              <p class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Vehicle Compatibility</p>
-              <p id="modal-vehicle" class="text-white font-medium"></p>
-            </div>
-            <div>
-              <p class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Category</p>
-              <p id="modal-category" class="text-white"></p>
-            </div>
-            <div>
-              <p class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Full Description</p>
-              <p id="modal-desc" class="leading-relaxed"></p>
-            </div>
-          </div>
-
-          <!-- CTA -->
-          <div class="mt-8 pt-6 border-t border-slate-800">
-            <a id="modal-whatsapp" href="#" target="_blank"
-               class="w-full inline-flex items-center justify-center gap-3 px-6 py-4 bg-neon-500 hover:bg-neon-400 text-black font-bold rounded-xl transition neon-glow text-base">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-              Inquire on WhatsApp
-            </a>
-            <p class="text-center text-xs text-slate-500 mt-3">We usually reply within a few minutes</p>
-          </div>
+function productPage(id){
+  const p=product(id);
+  if(!p) return `<p>Part not found. <a href="#/" class="text-accent">Back</a></p>`;
+  const o=off(p);
+  const similar=PRODUCTS.filter(x=>x.id!==p.id&&(x.category===p.category||x.make===p.make)).slice(0,4);
+  return `<p class="text-xs text-muted"><a href="#/">Inventory</a> / ${p.category} / ${p.id}</p>
+    <div class="mt-5 grid lg:grid-cols-2 gap-8">
+      <div class="rounded-xl overflow-hidden border border-line bg-elevated"><img src="${p.image}" alt="${p.name}" class="w-full aspect-[4/3] object-cover"/></div>
+      <div>
+        <div class="flex gap-2 items-center">${badge(p.condition)}<span class="text-xs uppercase text-muted">${p.brand}</span></div>
+        <h1 class="text-3xl font-bold mt-2">${p.name}</h1>
+        <p class="text-sm text-muted mt-1">${p.make} ${p.model} · ${p.year}</p>
+        <p class="mt-4 text-3xl font-bold">${inr(p.price)} ${o?`<span class="text-lg text-subtle line-through font-normal">${inr(p.mrp)}</span> <span class="text-accent text-sm">${o}% off</span>`:""}</p>
+        <p class="mt-4 text-sm text-muted">${p.desc}</p>
+        <p class="mt-3 text-sm">OEM <span class="font-mono">${p.oem}</span> · ${p.stock} left · ${p.deliveryDays} day delivery</p>
+        <div class="mt-5 flex gap-3">
+          <button class="flex-1 h-12 rounded-md bg-accent text-accent-fg font-semibold" onclick="addCart('${p.id}'); alert('Added to cart')">Add to cart</button>
+          <button class="flex-1 h-12 rounded-md bg-buy text-buy-fg font-semibold" onclick="addCart('${p.id}'); go('/checkout')">Buy now</button>
         </div>
       </div>
     </div>
-  </div>
+    <h2 class="text-2xl font-bold mt-12">Related</h2>
+    <div class="mt-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">${similar.map(card).join("")}</div>`;
+}
 
-  <script>
-    // ========== PRODUCT DATA (Add more products here) ==========
-    const parts = [
-      {
-        id: "P1",
-        name: "OEM Alternator 12V 90A",
-        category: "Electrical",
-        make: "Maruti",
-        model: "Swift / Dzire",
-        year: "2012-2017",
-        condition: "NEW",
-        price: "₹4,800",
-        desc: "Brand new old stock. Original packaging, never installed. Perfect fitment for Swift and Dzire petrol models. Comes with original mounting hardware.",
-        image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=600&fit=crop"
-      },
-      {
-        id: "P2",
-        name: "Front Brake Disc Pair (Ventilated)",
-        category: "Brakes",
-        make: "Hyundai",
-        model: "i20 / Elite i20",
-        year: "2014-2020",
-        condition: "USED",
-        price: "₹2,200",
-        desc: "Good condition pair. Measured within factory tolerance. Minimal lip wear. Ready to fit after cleaning. Ideal for budget brake jobs.",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop"
-      },
-      {
-        id: "P3",
-        name: "Shock Absorber Rear (Left)",
-        category: "Suspension",
-        make: "Honda",
-        model: "City",
-        year: "2008-2013",
-        condition: "REPAIR",
-        price: "₹900",
-        desc: "Bushing is worn and needs replacement. Shaft and body are in good condition with no leaks. Excellent donor unit or for a DIY rebuild project.",
-        image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&h=600&fit=crop"
-      },
-      {
-        id: "P4",
-        name: "Timing Belt Kit + Water Pump",
-        category: "Engine",
-        make: "Toyota",
-        model: "Innova / Fortuner",
-        year: "2005-2015",
-        condition: "NEW",
-        price: "₹6,500",
-        desc: "Complete timing belt kit including water pump, tensioner and idlers. Sealed packaging. High-quality aftermarket matching OEM specifications.",
-        image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&h=600&fit=crop"
-      },
-      {
-        id: "P5",
-        name: "Headlight Assembly RH",
-        category: "Body",
-        make: "Mahindra",
-        model: "Scorpio",
-        year: "2014-2017",
-        condition: "USED",
-        price: "₹3,100",
-        desc: "Clear polycarbonate lens with only minor surface scratches. All bulbs working. Reflector is bright. Direct bolt-on replacement.",
-        image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&h=600&fit=crop"
-      },
-      {
-        id: "P6",
-        name: "Radiator (Plastic Tank)",
-        category: "Engine",
-        make: "Maruti",
-        model: "WagonR / Swift",
-        year: "2010-2018",
-        condition: "USED",
-        price: "₹1,850",
-        desc: "Tested and holds pressure. No major leaks. Plastic tanks in good shape. Ideal budget replacement.",
-        image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&h=600&fit=crop"
-      },
-      {
-        id: "P7",
-        name: "Starter Motor 12V",
-        category: "Electrical",
-        make: "Hyundai",
-        model: "i10 / Grand i10",
-        year: "2010-2017",
-        condition: "NEW",
-        price: "₹3,900",
-        desc: "Brand new unit still in box. Compatible with multiple Hyundai petrol models. Direct replacement.",
-        image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=600&fit=crop"
-      },
-      {
-        id: "P8",
-        name: "Front Lower Control Arm (RH)",
-        category: "Suspension",
-        make: "Honda",
-        model: "Jazz / City",
-        year: "2009-2014",
-        condition: "REPAIR",
-        price: "₹1,200",
-        desc: "Ball joint needs replacement. Arm itself is straight and undamaged. Great for a rebuild kit project.",
-        image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&h=600&fit=crop"
-      }
-    ];
-
-    // ========== RENDER CARDS ==========
-    const grid = document.getElementById('inventory-grid');
-    const emptyState = document.getElementById('empty-state');
-    const resultCount = document.getElementById('result-count');
-
-    function getBadge(condition) {
-      if (condition === 'NEW') return '<span class="badge-new px-2.5 py-1 rounded text-xs font-bold">NEW</span>';
-      if (condition === 'USED') return '<span class="badge-used px-2.5 py-1 rounded text-xs font-bold">USED</span>';
-      return '<span class="badge-repair px-2.5 py-1 rounded text-xs font-bold">NEEDS MINOR REPAIR</span>';
-    }
-
-    function renderParts(list) {
-      grid.innerHTML = '';
-      resultCount.textContent = list.length;
-
-      if (list.length === 0) {
-        emptyState.classList.remove('hidden');
-        return;
-      }
-      emptyState.classList.add('hidden');
-
-      list.forEach(part => {
-        const card = document.createElement('div');
-        card.className = 'card-hover bg-dark-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col cursor-pointer';
-        card.innerHTML = `
-          <div class="relative aspect-[4/3] overflow-hidden bg-slate-800">
-            <img src="${part.image}" alt="${part.name}" class="w-full h-full object-cover" loading="lazy"
-                 onerror="this.src='https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop'">
-            <div class="absolute top-3 left-3">${getBadge(part.condition)}</div>
-          </div>
-          <div class="p-5 flex flex-col flex-1">
-            <div class="flex items-start justify-between gap-2 mb-1">
-              <h4 class="font-semibold text-white leading-snug">${part.name}</h4>
-              <span class="text-neon-400 font-bold whitespace-nowrap">${part.price}</span>
-            </div>
-            <p class="text-xs text-slate-400 mb-3">${part.make} ${part.model} • ${part.year}</p>
-            <p class="text-sm text-slate-300 mb-4 line-clamp-2 flex-1">${part.desc}</p>
-            <div class="flex items-center justify-between gap-3">
-              <span class="text-xs text-slate-500 font-mono">${part.id}</span>
-              <span class="text-xs text-neon-400 font-medium">View Details →</span>
+function cartPage(){
+  const t=totals();
+  if(!t.lines.length) return `<h1 class="text-3xl font-bold">Cart</h1><p class="mt-6 text-muted">Your cart is empty.</p><a href="#/" class="inline-flex mt-4 h-11 px-4 bg-accent text-accent-fg rounded-md items-center font-semibold">Shop</a>`;
+  return `<h1 class="text-3xl font-bold">Cart</h1>
+    <div class="mt-6 grid lg:grid-cols-[1fr_300px] gap-6">
+      <div class="grid gap-3">${t.lines.map(l=>`
+        <div class="flex gap-4 border border-line bg-surface rounded-xl p-3">
+          <img src="${l.p.image}" class="w-24 h-24 object-cover rounded-md"/>
+          <div class="flex-1 min-w-0">
+            <a href="#/product/${l.p.id}" class="font-semibold">${l.p.name}</a>
+            <p class="text-sm mt-1">${inr(l.p.price)}</p>
+            <div class="mt-2 flex items-center gap-2">
+              <button class="w-9 h-9 border border-line rounded" onclick="setQty('${l.p.id}',${l.qty-1})">−</button>
+              <span>${l.qty}</span>
+              <button class="w-9 h-9 border border-line rounded" onclick="setQty('${l.p.id}',${l.qty+1})">+</button>
+              <span class="ml-auto font-semibold">${inr(l.line)}</span>
             </div>
           </div>
-        `;
-        // Click anywhere on card opens detail
-        card.addEventListener('click', () => openDetail(part));
-        grid.appendChild(card);
-      });
-    }
+        </div>`).join("")}</div>
+      <aside class="border border-line bg-surface rounded-xl p-5 h-fit">
+        <h2 class="font-semibold">Summary</h2>
+        <input id="coupon" value="${cart.coupon||""}" placeholder="Coupon" class="mt-3 w-full h-11 bg-elevated border border-line rounded-md px-3 uppercase"/>
+        <button class="mt-2 w-full h-10 border border-line rounded-md" onclick="cart.coupon=document.getElementById('coupon').value; save('apex-cart',cart); route()">Apply</button>
+        <p class="text-xs text-muted mt-2">CLEARANCE10 · BOLT500 · NOS15</p>
+        <div class="mt-4 text-sm flex justify-between"><span class="text-muted">Subtotal</span><span>${inr(t.sub)}</span></div>
+        <div class="text-sm flex justify-between"><span class="text-muted">Discount</span><span>${t.disc?("-"+inr(t.disc)):"—"}</span></div>
+        <div class="text-sm flex justify-between"><span class="text-muted">Delivery</span><span>${t.ship?inr(t.ship):"Free"}</span></div>
+        <div class="mt-3 pt-3 border-t border-line flex justify-between font-bold"><span>Total</span><span>${inr(t.total)}</span></div>
+        <a href="#/checkout" class="mt-5 h-12 rounded-md bg-buy text-buy-fg font-semibold grid place-items-center">Checkout</a>
+      </aside>
+    </div>`;
+}
 
-    // ========== DETAIL MODAL ==========
-    const modal = document.getElementById('detail-modal');
-    const closeBtn = document.getElementById('close-modal');
+function checkoutPage(){
+  const t=totals();
+  if(!t.lines.length) return `<p>Cart is empty. <a href="#/" class="text-accent">Shop</a></p>`;
+  return `<h1 class="text-3xl font-bold">Checkout</h1>
+    <form class="mt-6 grid lg:grid-cols-[1fr_300px] gap-6" onsubmit="placeOrder(event)">
+      <div class="border border-line bg-surface rounded-xl p-5 grid gap-3">
+        <h2 class="font-semibold">Delivery</h2>
+        <input required name="name" placeholder="Full name" class="h-11 bg-elevated border border-line rounded-md px-3"/>
+        <input required name="phone" placeholder="Phone" class="h-11 bg-elevated border border-line rounded-md px-3"/>
+        <input required name="line1" placeholder="Address" class="h-11 bg-elevated border border-line rounded-md px-3"/>
+        <div class="grid grid-cols-2 gap-3">
+          <input required name="city" placeholder="City" class="h-11 bg-elevated border border-line rounded-md px-3"/>
+          <input required name="pincode" placeholder="PIN" class="h-11 bg-elevated border border-line rounded-md px-3"/>
+        </div>
+        <label class="text-sm"><input type="radio" name="pay" value="cod" checked/> Cash / pickup</label>
+        <label class="text-sm"><input type="radio" name="pay" value="upi"/> UPI</label>
+        <label class="text-sm"><input type="radio" name="pay" value="card"/> Card</label>
+      </div>
+      <aside class="border border-line bg-surface rounded-xl p-5 h-fit">
+        <p class="font-bold text-lg">${inr(t.total)}</p>
+        <button class="mt-4 w-full h-12 rounded-md bg-buy text-buy-fg font-semibold">Place order</button>
+      </aside>
+    </form>`;
+}
+function placeOrder(e){
+  e.preventDefault();
+  const f=new FormData(e.target);
+  const t=totals();
+  const id="AP"+Date.now().toString(36).toUpperCase();
+  orders.unshift({id, createdAt:new Date().toISOString(), items:t.lines.map(l=>({productId:l.p.id,name:l.p.name,qty:l.qty,price:l.p.price,image:l.p.image})), total:t.total, address:{name:f.get("name"),phone:f.get("phone"),line1:f.get("line1"),city:f.get("city"),pincode:f.get("pincode")}, payment:f.get("pay"), status:"Placed"});
+  save("apex-orders", orders);
+  cart={items:[],coupon:""}; save("apex-cart", cart);
+  go("/order/"+id);
+}
+function ordersPage(){
+  if(!orders.length) return `<h1 class="text-3xl font-bold">Orders</h1><p class="mt-6 text-muted">No orders yet.</p>`;
+  return `<h1 class="text-3xl font-bold">Orders</h1><div class="mt-6 grid gap-3">${orders.map(o=>`
+    <a href="#/order/${o.id}" class="flex gap-4 border border-line bg-surface rounded-xl p-4">
+      <img src="${o.items[0]?.image||""}" class="w-16 h-16 object-cover rounded-md"/>
+      <div class="flex-1"><p class="font-mono text-xs text-muted">${o.id}</p><p class="font-semibold truncate">${o.items.map(i=>i.name).join(", ")}</p></div>
+      <p class="font-semibold">${inr(o.total)}</p>
+    </a>`).join("")}</div>`;
+}
+function orderPage(id){
+  const o=orders.find(x=>x.id===id);
+  if(!o) return `<p>Order not found.</p>`;
+  return `<p class="text-xs uppercase tracking-widest text-accent">Order confirmed</p>
+    <h1 class="text-3xl font-bold mt-2">${o.id}</h1>
+    <p class="text-sm text-muted">${new Date(o.createdAt).toLocaleString("en-IN")} · ${o.status}</p>
+    <div class="mt-6 border border-line bg-surface rounded-xl p-5 text-sm">
+      ${o.address.name}<br>${o.address.line1}<br>${o.address.city} ${o.address.pincode}<br>${o.address.phone}
+    </div>
+    <ul class="mt-4 grid gap-3">${o.items.map(i=>`<li class="flex gap-3 border border-line bg-surface rounded-xl p-3"><img src="${i.image}" class="w-16 h-16 object-cover rounded-md"/><div class="flex-1">${i.name}<p class="text-xs text-muted">Qty ${i.qty}</p></div><span>${inr(i.price*i.qty)}</span></li>`).join("")}</ul>
+    <p class="mt-4 font-bold text-xl">Paid ${inr(o.total)}</p>
+    <a href="#/" class="inline-flex mt-6 h-11 px-4 bg-accent text-accent-fg rounded-md items-center font-semibold">Continue shopping</a>`;
+}
 
-    function openDetail(part) {
-      document.getElementById('modal-image').src = part.image;
-      document.getElementById('modal-image').alt = part.name;
-      document.getElementById('modal-badge').innerHTML = getBadge(part.condition);
-      document.getElementById('modal-id').textContent = `Part ID: ${part.id}`;
-      document.getElementById('modal-name').textContent = part.name;
-      document.getElementById('modal-price').textContent = part.price;
-      document.getElementById('modal-vehicle').textContent = `${part.make} ${part.model} (${part.year})`;
-      document.getElementById('modal-category').textContent = part.category;
-      document.getElementById('modal-desc').textContent = part.desc;
-
-      // WhatsApp link with pre-filled message
-      const msg = `Hi, I want to inquire about: ${part.name} (${part.id}) - ${part.price}`;
-      document.getElementById('modal-whatsapp').href = `https://wa.me/7878863821?text=${encodeURIComponent(msg)}`;
-
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden'; // prevent background scroll
-    }
-
-    function closeDetail() {
-      modal.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
-
-    closeBtn.addEventListener('click', closeDetail);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeDetail(); // click outside content
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeDetail();
-    });
-
-    // ========== FILTERING ==========
-    function applyFilters() {
-      const search = document.getElementById('search-input').value.toLowerCase().trim();
-      const category = document.getElementById('filter-category').value;
-      const make = document.getElementById('filter-make').value;
-      const condition = document.getElementById('filter-condition').value;
-
-      const filtered = parts.filter(p => {
-        const matchSearch = !search || 
-          p.name.toLowerCase().includes(search) ||
-          p.desc.toLowerCase().includes(search) ||
-          p.id.toLowerCase().includes(search) ||
-          p.model.toLowerCase().includes(search) ||
-          p.make.toLowerCase().includes(search);
-        const matchCat = !category || p.category === category;
-        const matchMake = !make || p.make === make;
-        const matchCond = !condition || p.condition === condition;
-        return matchSearch && matchCat && matchMake && matchCond;
-      });
-
-      renderParts(filtered);
-    }
-
-    document.getElementById('search-input').addEventListener('input', applyFilters);
-    document.getElementById('filter-category').addEventListener('change', applyFilters);
-    document.getElementById('filter-make').addEventListener('change', applyFilters);
-    document.getElementById('filter-condition').addEventListener('change', applyFilters);
-
-    document.getElementById('reset-filters').addEventListener('click', () => {
-      document.getElementById('search-input').value = '';
-      document.getElementById('filter-category').value = '';
-      document.getElementById('filter-make').value = '';
-      document.getElementById('filter-condition').value = '';
-      applyFilters();
-    });
-
-    document.getElementById('clear-filters-btn').addEventListener('click', () => {
-      document.getElementById('reset-filters').click();
-    });
-
-    // Mobile menu
-    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-      document.getElementById('mobile-menu').classList.toggle('hidden');
-    });
-
-    // Initial render
-    renderParts(parts);
-  </script>
+function route(){
+  paintCount();
+  const {path, params} = parse();
+  const app=document.getElementById("app");
+  if(path.startsWith("/product/")) app.innerHTML=productPage(path.split("/")[2]);
+  else if(path==="/cart") app.innerHTML=cartPage();
+  else if(path==="/checkout") app.innerHTML=checkoutPage();
+  else if(path==="/orders") app.innerHTML=ordersPage();
+  else if(path.startsWith("/order/")) app.innerHTML=orderPage(path.split("/")[2]);
+  else app.innerHTML=home(params);
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange", route);
+if(!location.hash) location.hash="#/";
+else route();
+</script>
 </body>
 </html>
